@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#define w_0 -5276460.0
+#define w_0 -5276461.0
 #define h 1
 
 float funcx_prime_1(float t,float x_1,float x_2,float y_1,float y_2,float z_1,float z_2);
