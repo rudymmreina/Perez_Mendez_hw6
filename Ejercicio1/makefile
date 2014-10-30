@@ -1,5 +1,7 @@
 all: poblaciones_1_20.pdf poblaciones_2_20.pdf poblaciones_3_20.pdf poblaciones_4_20.pdf poblaciones_5_20.pdf poblaciones_6_20.pdf poblaciones_7_20.pdf poblaciones_8_20.pdf poblaciones_9_20.pdf poblaciones_10_20.pdf poblaciones_11_20.pdf poblaciones_12_20.pdf poblaciones_13_20.pdf poblaciones_14_20.pdf poblaciones_15_20.pdf poblaciones_16_20.pdf poblaciones_17_20.pdf poblaciones_18_20.pdf poblaciones_19_20.pdf poblaciones_20_20.pdf poblaciones_21_20.pdf poblaciones_22_20.pdf poblaciones_23_20.pdf poblaciones_24_20.pdf poblaciones_25_20.pdf poblaciones_26_20.pdf poblaciones_27_20.pdf poblaciones_28_20.pdf poblaciones_29_20.pdf poblaciones_30_20.pdf 
 
+
+
 poblaciones_1_20.pdf: poblaciones_1_20.dat
 	python plot_poblaciones.py $^
 poblaciones_1_20.dat :  runge_kutta.x plot_poblaciones.py 
@@ -121,6 +123,8 @@ poblaciones_30_20.pdf: poblaciones_30_20.dat
 poblaciones_30_20.dat :  runge_kutta.x plot_poblaciones.py 
 	./runge_kutta.x 30 20
 
+runge_kutta.x : ejercicio1.c
+	cc ejercicio1.c -o runge_kutta.x -lm
 
 clean:
 	rm -f *.pdf *.dat
