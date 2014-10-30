@@ -95,11 +95,7 @@ int main(int argc, char **argv){
 
 float func_prime_1(float xa, float ya_1, float ya_2,float aa, float ba, float ca, float da){
 	
-	float Xa, Ya_1, Ya_2,respuestaa, Aa,Ba,Ca,Da;
-	Aa = aa ;
-	Ba = ba ; 
-	Ca = ca ;
-	Da = da ;
+	float Xa, Ya_1, Ya_2,respuestaa;
 	Xa = xa;
 	Ya_1 = ya_1;
 	Ya_2 = ya_2;
@@ -110,15 +106,11 @@ float func_prime_1(float xa, float ya_1, float ya_2,float aa, float ba, float ca
 
 float func_prime_2(float xb, float yb_1, float yb_2,float ab, float bb, float cb, float db){
 	
-	float Xb, Yb_1, Yb_2,respuestab, Ab,Bb,Cb,Db;
-	Ab = ab ;
-	Bb = bb ; 
-	Cb = cb ;
-	Db = db ;
+	float Xb, Yb_1, Yb_2,respuestab;
 	Xb = xb;
 	Yb_1 = yb_1;
 	Yb_2 = yb_2;
-	respuestab = Cb*Yb_2 + Db*Yb_1*Yb_2;
+	respuestab = C*Yb_2 + D*Yb_1*Yb_2;
 	return respuestab;
 	
 }

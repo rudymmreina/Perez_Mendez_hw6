@@ -16,8 +16,8 @@ t, x, y= loadtxt(file, unpack=True)
 
 filename2 = filename.split('.')
 
-plt.plot(t,y, 'ro')
+plt.plot(x,y, 'ro')
 plt.title('Grafica')
 plt.ylabel('Y variable')
-plt.xlabel('T variable')
+plt.xlabel('X variable')
 plt.savefig(filename2[0] +'.pdf')
