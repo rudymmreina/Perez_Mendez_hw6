@@ -7,106 +7,191 @@
 
 
 
-float func_prime_1(float x, float y_1, float y_2,float a, float b, float c, float d);
-float func_prime_2(float x, float y_1, float y_2,float a, float b, float c, float d);
+float func_prime_1(float xa, float ya_1, float ya_2,float aa, float ba, float ca, float da);
+float func_prime_2(float xb, float yb_1, float yb_2,float ab, float bb, float cb, float db);
 
-float RungeKuttaFourthOrderStep(float x_old, float y1_old, float y2_old);
+float RungeKuttaFourthOrderStep(float xc_old, float yc1_old, float yc2_old,float ac, float bc, float cc, float dc);
 
-int main(void){ 
+int main(int argc, char **argv){ 
 	
 	float A = 30.0;
 	float B = 1.0;
 	float C = 30.0;
 	float D = 1.0;
 
+	if(argc<3){
+		printf("We need at least 2 arguments beside the name of the executable!\n EXIT!\n");
+		exit(1);
+	}
+
+
 	float espacio = 0.01;
-	float minimo_x = 0.0;
-	float maximo_x = 6.0;
-	float n_points = 0.0;
-	n_points = (maximo_x - minimo_x)/espacio;
+	float minimo_t = 0.0;
+	float maximo_t = 1.0;
+	float n_points;
+	n_points = (maximo_t - minimo_t)/espacio;
+	float equis[(int)(n_points)];
+	float ye[(int)(n_points)];
+	float te[(int)(n_points)];
+	int i;
+	te[0]   = minimo_t ; 
+	equis[0] = atoi(argv[1]);
+	ye[0] =  atoi(argv[2]);
+	
+	float variable = 0.0;
+	int contador = 1;
+	int contador1 = 0;
+	int j;
+	
+	for( j =0; j < (int)(n_points);j++){
+		
+		te[j] = te[j] + 0.01*j;
+		
+	} 
+	while(contador< (int)(n_points)){
+		
+		te[contador], equis[contador], ye[contador] = RungeKuttaFourthOrderStep(te[contador-1],equis[contador-1],ye[contador-1],A,B,C,D);
+		variable = variable + espacio;
+		contador = contador +1;
+	
+	}
+	
+	
+	FILE *in;
+	
 	
 
-
-
+	
+	
+	char filename[100]="poblaciones_x0_y0.dat";
+    sprintf(filename, "poblaciones_%d_%d.dat", atoi(argv[1]),atoi(argv[2]));
+	printf("Writing to file: %s\n", filename);
+	/*opens the file, writes, closes the file*/
+	in = fopen(filename,"w");
+	
+	if(!in){
+		
+		printf("problems opening the file %s\n", filename);
+		exit(1);
+	
+	}
+	
+	for(i=0; i < (int)(n_points) ; i++){
+		fprintf(in, "%f %f %f\n", te[i], equis[i], ye[i]);
+	}
+	
+	fclose(in);
+	
+	
+	
+	
+	
+	
+	return 0;
 
 }
 
 
 
-float func_prime_1(float x, float y_1, float y_2,float a, float b, float c, float d){
+float func_prime_1(float xa, float ya_1, float ya_2,float aa, float ba, float ca, float da){
 	
-	float X, Y_1, Y_2,respuesta, A,B,C,D;
-	A = a ;
-	B = b ; 
-	C = c ;
-	D = d ;
-	X = x;
-	Y_1 = y_1;
-	Y_2 = y_2;
-	respuesta = A*Y_1 - B*Y_1*Y_2;
-	return respuesta;
-	
-}
-
-float func_prime_2(float x, float y_1, float y_2,float a, float b, float c, float d){
-	
-	float X, Y_1, Y_2,respuesta, A,B,C,D;
-	A = a ;
-	B = b ; 
-	C = c ;
-	D = d ;
-	X = x;
-	Y_1 = y_1;
-	Y_2 = y_2;
-	respuesta = C*Y_2 + D*Y_1*Y_2;
-	return respuesta;
+	float Xa, Ya_1, Ya_2,respuestaa, Aa,Ba,Ca,Da;
+	Aa = aa ;
+	Ba = ba ; 
+	Ca = ca ;
+	Da = da ;
+	Xa = xa;
+	Ya_1 = ya_1;
+	Ya_2 = ya_2;
+	respuestaa = Aa*Ya_1 - Ba*Ya_1*Ya_2;
+	return respuestaa;
 	
 }
 
+float func_prime_2(float xb, float yb_1, float yb_2,float ab, float bb, float cb, float db){
+	
+	float Xb, Yb_1, Yb_2,respuestab, Ab,Bb,Cb,Db;
+	Ab = ab ;
+	Bb = bb ; 
+	Cb = cb ;
+	Db = db ;
+	Xb = xb;
+	Yb_1 = yb_1;
+	Yb_2 = yb_2;
+	respuestab = Cb*Yb_2 + Db*Yb_1*Yb_2;
+	return respuestab;
+	
+}
 
-float RungeKuttaFourthOrderStep(float x_old, float y1_old, float y2_old){
+
+float RungeKuttaFourthOrderStep(float xc_old, float yc1_old, float yc2_old,float ac, float bc, float cc, float dc){
     
-    float X_old, Y1_old ,Y2_old ;
-    
-    X_old = x_old ; 
-    Y1_old = y1_old ; 
-    Y2_old = y2_old ; 	
-    
-    k_1_prime1 = func_prime_1(x_old,y1_old, y2_old)
-    k_1_prime2 = func_prime_2(x_old,y1_old, y2_old)
+    float Xc_old ;
+    float Yc1_old ;
+    float Yc2_old ;
+    float Ac1;
+    float Bc;
+    float  Cc ;
+    float Dc;
+    float kc_1_prime1;
+    float kc_1_prime2;
+    float kc_2_prime1;
+    float kc_2_prime2 ;
+    float kc_3_prime1 ;
+    float kc_3_prime2 ;
+    float acverage_k_1 ;
+    float acverage_k_2 ;
+    float kc_4_prime1;
+    float kc_4_prime2;
+    float xc_new;
+    float yc_1_new;
+    float Yc_2_new;
+    float yc_2_new;
+    float Xc_new, Yc_1_new ;
+    float xc1, xc2, xc3 ,hc , yc1_1, yc2_1, yc1_2, yc2_2, yc1_3, yc2_3; 
+    Ac1 = ac;
+    Bc = bc;
+    Cc = cc;
+    Dc = dc;
+    Xc_old = xc_old ; 
+    Yc1_old = yc1_old ; 
+    Yc2_old = yc2_old ; 	
+    float h = 0.01;
+    kc_1_prime1 = func_prime_1(xc_old,yc1_old, yc2_old,Ac1, Bc, Cc, Dc);
+    kc_1_prime2 = func_prime_2(xc_old,yc1_old, yc2_old,Ac1, Bc, Cc, Dc);
     
     //first step
-    x1 = x_old+ (h/2.0)
-    y1_1 = y1_old + (h/2.0) * k_1_prime1
-    y2_1 = y2_old + (h/2.0) * k_1_prime2
-    k_2_prime1 = func_prime_1(x1, y1_1, y2_1)
-    k_2_prime2 = func_prime_2(x1, y1_1, y2_1)
+    xc1 = xc_old+ (h/2.0) ;
+    yc1_1 = yc1_old + (h/2.0) * kc_1_prime1 ;
+    yc2_1 = yc2_old + (h/2.0) * kc_1_prime2 ;
+    kc_2_prime1 = func_prime_1(xc1, yc1_1, yc2_1,Ac1, Bc, Cc, Dc) ;
+    kc_2_prime2 = func_prime_2(xc1, yc1_1, yc2_1,Ac1, Bc, Cc, Dc) ;
     
 	//second step
-    x2 = x_old + (h/2.0)
-    y1_2 = y1_old + (h/2.0) * k_2_prime1
-    y2_2 = y2_old + (h/2.0) * k_2_prime2
-    k_3_prime1 = func_prime_1(x2, y1_2, y2_2)
-    k_3_prime2 = func_prime_2(x2, y1_2, y2_2)
+    xc2 = xc_old + (h/2.0) ;
+    yc1_2 = yc1_old + (h/2.0) * kc_2_prime1 ;
+    yc2_2 = yc2_old + (h/2.0) * kc_2_prime2 ;
+    kc_3_prime1 = func_prime_1(xc2, yc1_2, yc2_2,Ac1, Bc, Cc, Dc) ;
+    kc_3_prime2 = func_prime_2(xc2, yc1_2, yc2_2,Ac1, Bc, Cc, Dc) ;
     
     
     //third
-    x3 = x_old + h
-    y1_3 = y1_old + h * k_3_prime1
-    y2_3 = y2_old + h * k_3_prime2
-    k_4_prime1 = func_prime_1(x3, y1_3, y2_3)
-    k_4_prime2 = func_prime_2(x3, y1_3, y2_3)
+    xc3 = xc_old + h ;
+    yc1_3 = yc1_old + h * kc_3_prime1 ;
+    yc2_3 = yc2_old + h * kc_3_prime2 ;
+    kc_4_prime1 = func_prime_1(xc3, yc1_3, yc2_3,Ac1, Bc, Cc, Dc) ;
+    kc_4_prime2 = func_prime_2(xc3, yc1_3, yc2_3,Ac1, Bc, Cc, Dc) ; 
     
     //fourth step
-    average_k_1 = (1.0/6.0)*(k_1_prime1 + 2.0*k_2_prime1 + 2.0*k_3_prime1 + k_4_prime1)
-    average_k_2 = (1.0/6.0)*(k_1_prime2 + 2.0*k_2_prime2 + 2.0*k_3_prime2 + k_4_prime2)
+    acverage_k_1 = (1.0/6.0)*(kc_1_prime1 + 2.0*kc_2_prime1 + 2.0*kc_3_prime1 + kc_4_prime1) ; 
+    acverage_k_2 = (1.0/6.0)*(kc_1_prime2 + 2.0*kc_2_prime2 + 2.0*kc_3_prime2 + kc_4_prime2) ;
     
-    x_new = x_old + h
-    y_1_new = y1_old + h * average_k_1
-    y_2_new= y2_old + h * average_k_2
+    Xc_new = xc_old + h ;
+    Yc_1_new = yc1_old + h * acverage_k_1 ; 
+    Yc_2_new= yc2_old + h * acverage_k_2 ;
     
     
-    return X_new, Y_1_new, Y_2_new;
+    return Xc_new, Yc_1_new, Yc_2_new;
 
 
 }
